@@ -1,0 +1,581 @@
+command /menu:
+	aliases: /m
+	trigger:
+		open chest with 4 row named "&l&eTHE WORLD MC&8メニュー【1 / 2】" to player
+		set {_i} to 0
+		set {_glass} to white glass pane named "&c&lクリック不可"
+		loop 54 times:
+			set slot {_i} of player's current inventory to {_glass}
+			add 1 to {_i}
+		set slot 8 of player's current inventory to arrow named "&f次のページへ移動する" with lore "&f現在1ページ / 2ページ"
+		set slot 10 of player's current inventory to grass block named "&eワープメニュー" with lore "世界のあらゆる地域にTP可能です"
+		set slot 12 of player's current inventory to gold axe named "&6デュエルメニュー" with lore "デュエル待機室メニューが開けます"
+		set slot 14 of player's current inventory to redstone lamp named "&cショップメニュー" with lore "公式ショップを開きます"
+		set slot 23 of player's current inventory to sea lantern named "&a買取メニュー"
+		set slot 16 of player's current inventory to podzol named "&a通販メニュー" with lore "鯖民が利用可能な通販メニュー"
+		set slot 25 of player's current inventory to axolotl bucket named "&aお魚買取メニュー" with lore "お魚を売れます"
+		set slot 29 of player's current inventory to magma named "&7ゴミ箱"
+		set slot 27 of player's current inventory to ender chest named "&5エンダーチェスト"
+		set slot 28 of player's current inventory to emerald named "ログインボーナスを受け取る"
+		set slot 35 of player's current inventory to barrier named "&4閉じる"
+
+on inventory click:
+	if name of player's current inventory contain "&l&eTHE WORLD MC&8メニュー【1 / 2】":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 8:
+				open chest with 4 row named "&l&eTHE WORLD MC&8メニュー【2 / 2】" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 54 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 0 of player's current inventory to arrow named "&f前のページへ移動する" with lore "&f現在2ページ / 2ページ"
+				set slot 10 of player's current inventory to grass block named "&e職業メニュー" with lore "職業に就くことが可能です"
+				set slot 12 of player's current inventory to experience bottle named "&cPVPメニュー" with lore "デュエルが可能です"
+				set slot 14 of player's current inventory to gold ore named "&6Townyメニュー"
+				set slot 16 of player's current inventory to iron ore named "&avery soon"
+				set slot 29 of player's current inventory to magma named "&7ゴミ箱"
+				set slot 27 of player's current inventory to ender chest named "&5エンダーチェスト"
+				set slot 28 of player's current inventory to emerald named "ログインボーナスを受け取る"
+				set slot 35 of player's current inventory to barrier named "&4閉じる"
+			
+			if clicked slot is 10:
+				open chest with 3 row named "ワープメニュー" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 27 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 1 of player's current inventory to furnace named "&a北アメリカ(アメリカ)"
+				set slot 3 of player's current inventory to glass named "&aヨーロッパ(ブルガリア)"
+				set slot 6 of player's current inventory to packed ice named "&a北アジア(ロシア)"
+				set slot 8 of player's current inventory to barrier named "&cメニューへ戻る"
+				set slot 13 of player's current inventory to orange bed named "&a西アジア(UAE)"
+				set slot 15 of player's current inventory to blue bed named "&a東アジア(中国)"
+				set slot 17 of player's current inventory to netherite ingot named "&5ネザー"
+				set slot 19 of player's current inventory to acacia planks named "&a南アメリカ(ブラジル)"
+				set slot 21 of player's current inventory to stone bricks named "&aアフリカ(コンゴ)"
+				set slot 24 of player's current inventory to red wool named "&aオーストラリア(オーストラリア)"
+				set slot 26 of player's current inventory to brick named "&6ロビー"
+
+			if clicked slot is 12:
+				execute player command "queue"
+				#set {_exp.%player%} to total experience of player
+				#if {_exp.%player%} > 0:
+				#	if {_exp.%player%} >= 180:
+				#		set {_messageexp.%player%} to "&a利用可能"
+				#	else:
+				#		set {_messageexp.%player%} to "&c利用不可"
+				#	set {_experience.%player%} to {_exp.%player%} / 9
+				#	set {_number.%player%} to round({_experience.%player%})
+				#	open chest with 1 row named "経験値メニュー" to player
+				#	set {_i} to 0
+				#	set {_glass} to white glass pane named "&c&lクリック不可"
+				#	loop 9 times:
+				#		set slot {_i} of player's current inventory to {_glass}
+				#		add 1 to {_i}
+				#	set slot 2 of player's current inventory to green wool named "&a全て瓶に変換する" with lore "&f現在変換可能 :%{_number.%player%}%個" and "変換時に経験値が少なくなります"
+				#	set slot 6 of player's current inventory to barrier named "&cキャンセル"
+				#	set slot 4 of player's current inventory to command block named "&f20個ずつ瓶に変換する" with lore "&f[%{_messageexp.%player%}%&f]" and "変換時に経験値が少なくなります"
+				#else:
+				#	message "【&eTWMCシステム&f】&c十分な経験値がありません" to player
+				#	close player's inventory
+
+			if clicked slot is 14:
+				execute player command "shop"
+
+			if clicked slot is 23:
+				execute player command "sellgui"
+
+			if clicked slot is 16:
+				send "very soon" to player
+				close player's inventory
+
+			if clicked slot is 25:
+				execute player command "fish shop"					
+
+			if clicked slot is 27:
+				execute player command "ec"
+
+			if clicked slot is 28:
+				execute player command "reward"
+				close player's inventory
+				
+			if clicked slot is 29:
+				open chest with 2 row named "&cゴミ箱（入れて閉じたらもう戻りません！！）" to player
+
+			if clicked slot is 35:
+				close player's inventory
+				message "【&eTWMCシステム&f】メニューを閉じました" to player
+				
+	if name of player's current inventory contain "&l&eTHE WORLD MC&8メニュー【2 / 2】":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 0:
+				open chest with 4 row named "&l&eTHE WORLD MC&8メニュー【1 / 2】" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 54 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 8 of player's current inventory to arrow named "&f次のページへ移動する" with lore "&f現在1ページ / 2ページ"
+				set slot 10 of player's current inventory to grass block named "&eワープメニュー" with lore "世界のあらゆる地域にTP可能です"
+				set slot 12 of player's current inventory to experience bottle named "&6デュエルメニュー" with lore "デュエル待機室メニューが開けます"
+				set slot 14 of player's current inventory to redstone lamp named "&cショップメニュー" with lore "公式ショップを開きます"
+				set slot 23 of player's current inventory to sea lantern named "&a買取メニュー"
+				set slot 16 of player's current inventory to podzol named "&a通販メニュー" with lore "鯖民が利用可能な通販メニュー"
+				set slot 25 of player's current inventory to axolotl bucket named "&aお魚買取メニュー" with lore "お魚を売れます"
+				set slot 29 of player's current inventory to magma named "&7ゴミ箱"
+				set slot 27 of player's current inventory to ender chest named "&5エンダーチェスト"
+				set slot 28 of player's current inventory to emerald named "ログインボーナスを受け取る"
+				set slot 35 of player's current inventory to barrier named "&4閉じる"
+			if clicked slot is 10:
+				execute player command "jobs join"					
+
+			if clicked slot is 12:
+				close player's inventory
+				
+			if clicked slot is 14:
+				close player's inventory					
+
+			if clicked slot is 16:
+				close player's inventory
+
+			if clicked slot is 27:
+				execute player command "ec"
+
+			if clicked slot is 28:
+				execute player command "reward"
+				close player's inventory
+				
+			if clicked slot is 29:
+				open chest with 2 row named "&cゴミ箱（入れて閉じたらもう戻りません！！）" to player
+
+			if clicked slot is 35:
+				close player's inventory
+				message "【&eTWMCシステム&f】メニューを閉じました" to player
+
+	if name of player's current inventory contain "ワープメニュー":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 1:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at -3853, 63, -2044 in world "THE_EARTH"
+
+			if clicked slot is 3:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 1269, 65, -2265 in world "THE_EARTH"
+
+
+			if clicked slot is 6:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 7228, 63, -3600 in world "THE_EARTH"
+			
+			if clicked slot is 8:
+				open chest with 4 row named "&l&eTHE WORLD MC&8メニュー【1 / 2】" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 54 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 8 of player's current inventory to arrow named "&f次のページへ移動する" with lore "&f現在1ページ / 2ページ"
+				set slot 10 of player's current inventory to grass block named "&eワープメニュー" with lore "世界のあらゆる地域にTP可能です"
+				set slot 12 of player's current inventory to experience bottle named "&6デュエルメニュー" with lore "デュエル待機室メニューが開けます"
+				set slot 14 of player's current inventory to redstone lamp named "&cショップメニュー" with lore "公式ショップを開きます"
+				set slot 23 of player's current inventory to sea lantern named "&a買取メニュー"
+				set slot 16 of player's current inventory to podzol named "&a通販メニュー" with lore "鯖民が利用可能な通販メニュー"
+				set slot 25 of player's current inventory to axolotl bucket named "&aお魚買取メニュー" with lore "お魚を売れます"
+				set slot 29 of player's current inventory to magma named "&7ゴミ箱"
+				set slot 27 of player's current inventory to ender chest named "&5エンダーチェスト"
+				set slot 28 of player's current inventory to emerald named "ログインボーナスを受け取る"
+				set slot 35 of player's current inventory to barrier named "&4閉じる"
+				
+
+			if clicked slot is 13:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 2808, 64, -1180 in world "THE_EARTH"
+				
+			if clicked slot is 15:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 5400, 68, -1500 in world "THE_EARTH"
+
+			if clicked slot is 17:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 12, 40, -44 in world "THE_EARTH_nether"
+
+			if clicked slot is 19:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at -2205, 73, 1072 in world "THE_EARTH"
+
+			if clicked slot is 21:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:		
+					teleport player to location at 747, 69, 98 in world "THE_EARTH"
+				
+			if clicked slot is 24:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 7397, 66, 851 in world "THE_EARTH"
+
+			if clicked slot is 26:
+				message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+				set {_location.%player%} to location of player
+				set {_counted.%player%} to 5
+				loop 6 times:
+					wait 1 second
+					set {_check.%player%} to location of player
+					message "%{_counted.%player%}%秒後にテレポート" to player
+					set {_counted.%player%} to {_counted.%player%} -1
+					if {_location.%player%} isn't {_check.%player%}:
+						message "&c動いたのでテレポートがキャンセルされました" to player
+						set {_ok.%player%} to true
+						exit 1 loop
+				if {_ok.%player%} isn't true:
+					teleport player to location at 1, 65, 171 in world "world"
+				
+	#if name of player's current inventory contain "経験値メニュー":
+	#	if event-inventory != Player's inventory:
+	#		cancel event
+	#		if clicked slot is 2:
+	#			set {_exp.%player%} to total experience of player
+	#			set {_experience.%player%} to {_exp.%player%} / 9
+	#			set {_number.%player%} to round({_experience.%player%})
+	#			if {_number.%player%} is 0:
+	#				message "【&eTWMCシステム&f】&c必要な経験値が足りません" to player
+	#				close player's inventory
+	#			else if player has enough space for {_number.%player%} of Bottle o' Enchanting:
+	#				wait a tick
+	#				message "【&eTWMCシステム&f】&a%{_number.%player%}%個の経験値ポーションに変換しました" to player
+	#				execute console command "/give %player% experience_bottle %{_number.%player%}%"
+	#				set total experience of player to 0
+	#			else:
+	#				message "【&eTWMCシステム&f】&cインベントリーの空きがありません" to player
+	#				close player's inventory
+
+			if clicked slot is 6:
+				open chest with 4 row named "&l&eTHE WORLD MC&8メニュー【1 / 2】" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 54 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 8 of player's current inventory to arrow named "&f次のページへ移動する" with lore "&f現在1ページ / 2ページ"
+				set slot 10 of player's current inventory to grass block named "&eワープメニュー" with lore "世界のあらゆる地域にTP可能です"
+				set slot 12 of player's current inventory to experience bottle named "&6経験値メニュー" with lore "経験値をボトルに変換します"
+				set slot 14 of player's current inventory to redstone lamp named "&cショップメニュー" with lore "公式ショップを開きます"
+				set slot 23 of player's current inventory to sea lantern named "&a買取メニュー"
+				set slot 16 of player's current inventory to podzol named "&a通販メニュー" with lore "鯖民が利用可能な通販メニュー"
+				set slot 25 of player's current inventory to axolotl bucket named "&aお魚買取メニュー" with lore "お魚を売れます"
+				set slot 29 of player's current inventory to magma named "&7ゴミ箱"
+				set slot 27 of player's current inventory to ender chest named "&5エンダーチェスト"
+				set slot 28 of player's current inventory to emerald named "ログインボーナスを受け取る"
+				set slot 35 of player's current inventory to barrier named "&4閉じる"
+				
+			if clicked slot is 4:
+				set {_exp.%player%} to total experience of player
+				if {_exp.%player%} >= 180:
+					set {_number.%player%} to 20
+					if player has enough space for 20 of Bottle o' Enchanting:
+						wait a tick
+						message "【&eTWMCシステム&f】&a20個の経験値ポーションに変換しました" to player
+						execute console command "/give %player% experience_bottle 20"
+						remove 180 from total experience of player
+						close player's inventory
+					else:
+						message "【&eTWMCシステム&f】&cインベントリーの空きがありません" to player
+						close player's inventory
+				
+				
+				
+#warpコマンドでのシステム
+		
+command /warps:
+	trigger:
+		open chest with 3 row named "ワープメニュー" to player
+		set {_i} to 0
+		set {_glass} to white glass pane named "&c&lクリック不可"
+		loop 27 times:
+			set slot {_i} of player's current inventory to {_glass}
+			add 1 to {_i}
+		set slot 1 of player's current inventory to furnace named "&a北アメリカ(アメリカ)"
+		set slot 3 of player's current inventory to glass block named "&aヨーロッパ(ブルガリア)"
+		set slot 6 of player's current inventory to packed ice named "&a北アジア(ロシア)"
+		set slot 13 of player's current inventory to orange bed named "&a西アジア(UAE)"	
+		set slot 15 of player's current inventory to blue bed named "&a東アジア(中国)"
+		set slot 17 of player's current inventory to netherite ingot named "&5ネザー"
+		set slot 19 of player's current inventory to acacia planks named "&a南アメリカ(ブラジル)"
+		set slot 21 of player's current inventory to stone bricks named "&aアフリカ(コンゴ)"
+		set slot 24 of player's current inventory to red wool named "&aオーストラリア(オーストラリア)"
+		set slot 26 of player's current inventory to brick named "&6ロビー"
+
+command /warp <text>:
+	trigger:
+		if arg-1 is "NORTH_AMERICA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at -3853, 63, -2044 in world "THE_EARTH"
+
+		if arg-1 is "SOUTH_AMERICA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at -2205, 73, 1072 in world "THE_EARTH"
+
+		if arg-1 is "AFRICA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:		
+				teleport player to location at 747, 69, 98 in world "THE_EARTH"
+
+		if arg-1 is "EUROPE":
+			close player's inventory
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 1269, 65, -2265 in world "THE_EARTH"
+
+		if arg-1 is "AUSTRALIA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 7397, 66, 851 in world "THE_EARTH"
+
+		if arg-1 is "NETHER":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 12, 40, -44 in world "THE_EARTH_nether"
+
+		if arg-1 is "EAST_ASIA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 5400, 68, -1500 in world "THE_EARTH"
+
+		if arg-1 is "WEST_ASIA":
+			set {place.%player%} to "WEST_ASIA"
+			close player's inventory
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 2808, 64, -1180 in world "THE_EARTH"
+
+		if arg-1 is "NORTH_ASIA":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {_check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 7228, 63, -3600 in world "THE_EARTH"
+
+		if arg-1 is "LOBBY":
+			message "【&eTWMCシステム&f】5秒間後にTPします。動くと自動でキャンセルします" to player
+			set {_location.%player%} to location of player
+			set {_counted.%player%} to 5
+			loop 6 times:
+				wait 1 second
+				set {__check.%player%} to location of player
+				message "%{_counted.%player%}%秒後にテレポート" to player
+				set {_counted.%player%} to {_counted.%player%} -1
+				if {_location.%player%} isn't {_check.%player%}:
+					message "&c動いたのでテレポートがキャンセルされました" to player
+					set {_ok.%player%} to true
+					exit 1 loop
+			if {_ok.%player%} isn't true:
+				teleport player to location at 1, 65, 171 in world "world"
