@@ -1,0 +1,132 @@
+#投票コマンドの処理
+command /polladmin [<text>] [<text>] [<text>] [<text>]:
+	permission: polladmin
+	usage: /polladmin <start/stop> <投票内容> <選択肢一つ目> <選択肢二つ目> 
+	aliases: /pa
+	trigger:
+    #投票を始める際の処理
+		if arg-1 is "start":
+      #既に投票が行われる場合
+			if {vote_now} is true:
+				message "[&6TWMC投票&f]&c投票は既に行われています" to player
+      #まだ投票が行われていない場合
+			else:
+				set {poll_main} to arg-2
+				set {poll_1} to arg-3
+				set {poll_2} to arg-4
+				set {poll_1_number} to 0
+				set {poll_2_number} to 0
+				broadcast "[&6TWMC投票&f]&a投票が開始されました！"
+				broadcast "投票内容は&a%arg-2%&fについてです"
+				broadcast "/pollで投票メニューが開けます！"
+				set {vote_now} to true
+    #投票が停止の処理
+		else if arg-1 is "stop":
+			if {vote_now} is false:
+				message "[&6TWMC投票&f]&c投票は現在行われていません" to player
+			else:
+				broadcast "[&6TWMC投票&f]%{poll_main}%&cについての投票を10秒後に停止します"
+				broadcast "まだしてない人は/pollで投票メニューが開けます"
+				loop 10 times:
+					wait 1 secound
+				set {vote_player::*} to clear
+				broadcast "[&6TWMC投票&f]%{poll_main}%&cについての投票がストップしました"
+				broadcast "[&6TWMC投票&f]&f{開票結果}"
+				wait a tick
+				if {poll_1_number} > {poll_2_number}:
+					broadcast "[&6TWMC投票&f]&a(勝)%{poll_1}% : %{poll_1_number}%票 &f,&c(敗)%{poll_2}% : %{poll_2_number}%票"
+				else if {poll_1_number} < {poll_2_number}:
+					broadcast "[&6TWMC投票&f]&c(敗)%{poll_1}% : %{poll_1_number}%票 &f,&a(勝)%{poll_2}% : %{poll_2_number}%票"
+				else if {poll_1_number} = {poll_2_number}:
+					broadcast "[&6TWMC投票&f]&6%{poll_1}% : %{poll_1_number}%票 「引き分け」 %{poll_2}% : %{poll_2_number}%票"
+				set {vote_now} to false
+		else if arg-1 is "clear":
+			message "強制的に投票をリセットしました" to player
+			set {vote_player::*} to clear
+			set {vote_now} to false
+				
+command /polled:
+	trigger:
+		message "======[&6TWMC投票&f]======"
+		message "前回の投票内容 : %{poll_main}%"
+		if {poll_1_number} > {poll_2_number}:
+			message "&a(勝)%{poll_1}% : %{poll_1_number}%票 &f,&c(敗)%{poll_2}% : %{poll_2_number}%票" to player
+		else if {poll_1_number} > {poll_2_number}:
+			message "[&6TWMC投票&f]&c(敗)%{poll_1}% : %{poll_1_number}%票 &f,&a(勝)%{poll_2}% : %{poll_2_number}%票" to player
+		else if {poll_1_number} > {poll_2_number}:
+			message "[&6TWMC投票&f]&6%{poll_1}% : %{poll_1_number}%票 「引き分け」 %{poll_2}% : %{poll_2_number}%票" to player
+
+#投票GUIの表示処理
+command /poll:
+	aliases: /po
+	trigger:
+		if {vote_now} is true:
+			if {vote_player::*} contain player:
+				message "&cあなたは既に投票済みです！"
+			else:
+				open chest with 1 row named "&l投票メニュー" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 3 of player's current inventory to white wool named "&6[選択肢1].%{poll_1}%" with lore "&fタップして選択"
+				set slot 5 of player's current inventory to black wool named "&6[選択肢2].%{poll_2}%" with lore "&fタップして選択"
+		else:
+			close player's inventory
+			message "[&6TWMC投票&f]&c投票は現在行われていません" to player
+
+＃投票GUIの内部処理
+on inventory click:
+	if name of player's current inventory contain "&l投票メニュー":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 3:
+				set {poll.%player%} to {poll_1}
+				wait 5 tick
+				open chest with 1 row named "&l投票確認画面" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 3 of player's current inventory to arrow named "%{poll.%player%}%に投票する" with lore "&fタップして選択"
+				set slot 5 of player's current inventory to grass block named "キャンセル" with lore "&fタップして選択"
+				
+			if clicked slot is 5:
+				set {poll.%player%} to {poll_2}
+				wait 10 tick
+				open chest with 1 row named "&l投票確認画面" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 3 of player's current inventory to arrow named "%{poll.%player%}%に投票する" with lore "&f選択し直すことはできません"
+				set slot 5 of player's current inventory to barrier named "キャンセル" with lore "&f投票メニューへ戻ります"
+
+on inventory click:
+	if name of player's current inventory contain "&l投票確認画面":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 3:
+				if {poll.%player%} is {poll_1}:
+					broadcast "[&6TWMC投票&f]&a%player%さんが投票しました！"
+					close player's inventory
+					set {poll_1_number} to {poll_1_number}+1
+					set {vote_player::*} to player
+				else if {poll.%player%} is {poll_2}:
+					broadcast "[&6TWMC投票&f]&a%player%さんが投票しました！"
+					close player's inventory
+					set {poll_2_number} to {poll_2_number}+1
+					add player to {vote_player::*}
+			else if clicked slot is 5:
+				wait 2 tick
+				open chest with 1 row named "&l投票メニュー" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 3 of player's current inventory to white wool named "&61.%{poll_1}%" with lore "&fタップして選択"
+				set slot 5 of player's current inventory to black wool named "&62.%{poll_2}%" with lore "&fタップして選択"
