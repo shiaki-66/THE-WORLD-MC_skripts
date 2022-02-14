@@ -1,0 +1,88 @@
+
+
+command /2022:
+	trigger:
+		if {alreadied.%player%} is not true:
+			wait a tick
+			open chest with 1 row named "2022お年玉ボーナス" to player
+			set {_i} to 0
+			set {_glass} to white glass pane named "&c&lクリック不可"
+			loop 9 times:
+				set slot {_i} of player's current inventory to {_glass}
+				add 1 to {_i}
+			set slot 2 of player's current inventory to diamond named "&cSUPERキーを５つを受け取る"
+			set slot 5 of player's current inventory to emerald named "&e$20000を受け取る"
+			set slot 8 of player's current inventory to barrier named "&4閉じる"
+		else:
+			close player's inventory
+			message "あなたは既に受け取っています" to player
+
+on join:
+	if {alreadied.%player%} is not true:
+		message "[&c2022ボーナス&f]お年玉ボーナスが未受け取りです！！/2022rewardで受け取れます！！" to player
+
+on inventory click:
+	if name of player's current inventory contain "2022お年玉ボーナス":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 2:
+				if player has enough space for 1 barrier:
+					set {select.%player%} to 1
+					wait 1 tick
+					open chest with 1 row named "確認画面" to player
+					set {_i} to 0
+					set {_glass} to white glass pane named "&c&lクリック不可"
+					loop 9 times:
+						set slot {_i} of player's current inventory to {_glass}
+						add 1 to {_i}
+					set slot 3 of player's current inventory to diamond named "&cSUPERキーを５つを受け取る" with lore  "一度受け取ったら変更はできません"
+					set slot 5 of player's current inventory to barrier named "&aキャンセル"
+				else:
+					close player's inventory
+					message "十分なインベントリーの空きがありません" to player
+
+			if clicked slot is 5:
+				set {select.%player%} to 2
+				wait 1 tick
+				open chest with 1 row named "確認画面" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 3 of player's current inventory to diamond named "&c$20000を受け取る" with lore  "一度受け取ったら変更はできません"
+				set slot 5 of player's current inventory to barrier named "&aキャンセル"
+
+			if clicked slot is 8:
+				close player's inventory
+
+on inventory click:
+	if name of player's current inventory contain "確認画面":
+		if event-inventory != Player's inventory:
+			cancel event
+			if clicked slot is 2:
+				if {select.%player%} is 1:
+					if player has enough space for 1 barrier:
+						execute console command "/crate key %player% SUPER 5"
+						set {alreadied.%player%} to true
+						broadcast "[&62022お年玉&f]あけましておめでとう！%player%がSUPERキー５つを受け取りました"
+						close player's inventory
+					else:
+						message "インベントリに空きがありません" to player
+						
+				if {select.%player%} is 2:
+					execute console command "/eco give %player% 20000"
+					set {alreadied.%player%} to true
+					broadcast "[&62022お年玉&f]あけましておめでとう！%player%がお金$20000を受け取りました"
+					close player's inventory
+
+			if clicked slot is 5:
+				open chest with 1 row named "2022お年玉ボーナス" to player
+				set {_i} to 0
+				set {_glass} to white glass pane named "&c&lクリック不可"
+				loop 9 times:
+					set slot {_i} of player's current inventory to {_glass}
+					add 1 to {_i}
+				set slot 2 of player's current inventory to diamond named "&cSUPERキー５つを受け取る"
+				set slot 5 of player's current inventory to emerald named "&e$20000を受け取る"
+				set slot 8 of player's current inventory to barrier named "&4閉じる"
